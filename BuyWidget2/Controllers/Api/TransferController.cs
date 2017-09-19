@@ -47,7 +47,7 @@ namespace BuyWidget2.Controllers.Api
         //POST /api/transfer/1
         [System.Web.Http.HttpPost]
         [AcceptVerbs("GET", "POST")]
-        [Route("api/transfer/{BitcoinAmount:double}/{Address:string}")]
+        [Route("api/transfer/{BitcoinAmount:double}/{Address}")]
         public string TrasnferBTC(double BitcoinAmount, string Address)
         {
             // Create a Signature Object

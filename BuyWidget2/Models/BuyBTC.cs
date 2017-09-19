@@ -16,7 +16,7 @@ namespace BuyWidget2.Models
         private static string secret { get; set;}
         private string userID { get; set;}
         private string signature { get; set;}
-        private double amount { get; set;}
+        private double amount { get; set;}                              // Bitcoin Amount
         private Dictionary<string, string> values { get; set;}
         private string ResponseString { get; set; }
 
@@ -28,7 +28,7 @@ namespace BuyWidget2.Models
             secret = "WpHHYqmoq5v9mqRb9pt9NehjEz4hkIKH";
             userID = "isgr4867";
             signature = GetSignature(nonce, key, secret, userID);
-            amount = 25;
+            amount = 0.00283329; 
             values = new Dictionary<string, string>
              {
                  {"key", key},
@@ -40,14 +40,14 @@ namespace BuyWidget2.Models
         }
 
 
-        public BuyBTC(double Dollars)
+        public BuyBTC(double BitcoinAmount)
         {
              nonce = DateTime.UtcNow.Ticks;
              key = "rxrmaOmsg9bvEl6dxYBU3ZefNsz8Focd";
              secret = "WpHHYqmoq5v9mqRb9pt9NehjEz4hkIKH";
              userID = "isgr4867";
              signature = GetSignature(nonce, key, secret, userID);
-             amount = Dollars;
+             amount = BitcoinAmount;
              values = new Dictionary<string, string>
              {
                  {"key", key},
