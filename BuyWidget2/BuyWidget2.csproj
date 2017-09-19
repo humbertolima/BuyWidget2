@@ -160,6 +160,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Api\BalanceController.cs" />
     <Compile Include="Controllers\Api\BuyBTCController.cs" />
+    <Compile Include="Controllers\Api\BuyETHController.cs" />
     <Compile Include="Controllers\Api\OctagonWalletController.cs" />
     <Compile Include="Controllers\Api\TickerController.cs" />
     <Compile Include="Controllers\Api\TransferController.cs" />
@@ -170,7 +171,9 @@
     </Compile>
     <Compile Include="Models\Balance.cs" />
     <Compile Include="Models\BankWithdrawal.cs" />
+    <Compile Include="Models\BuyETH.cs" />
     <Compile Include="Models\BuyBTC.cs" />
+    <Compile Include="Models\EtherTransfer.cs" />
     <Compile Include="Models\OctagonWallet.cs" />
     <Compile Include="Models\Signature.cs" />
     <Compile Include="Models\Ticker.cs" />

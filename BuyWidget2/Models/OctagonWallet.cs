@@ -80,6 +80,11 @@ namespace BuyWidget2.Models
         }
 
 
+        public string GetEthAvailable()
+        {
+            return eth_balance;
+        }
+
         public string GetUsd()
         {
             return usd_balance;
@@ -105,6 +110,7 @@ namespace BuyWidget2.Models
             Wallet2 wallet = (Wallet2)javaScriptSerializer.Deserialize(contents, typeof(Wallet2));
 
             usd_balance = wallet.getUsd();
+            eth_balance = wallet.eth_balance;
             btc_balance = wallet.btc_balance;
 
             return wallet.getUsd();
