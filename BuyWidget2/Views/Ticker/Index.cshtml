@@ -1,0 +1,13 @@
+﻿@model BuyWidget2.Models.Ticker
+@{
+    ViewBag.Title = "Ticker";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Ticker</h2>
+<h3>Last Bitcoin Price: $@Model.last</h3>
+<h3>Highest BTC price : $@Model.high</h3>
+<h3>Lowest Sell Order : $@Model.ask</h3>
+<h3>First Price of the day : $@Model.open</h3>
+
+
