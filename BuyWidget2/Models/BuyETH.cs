@@ -9,18 +9,23 @@ using System.Text;
 
 namespace BuyWidget2.Models
 {
+    /**
+     * A class that represents the purchase of Ether
+     */
     public class BuyETH
     {
-        private long nonce { get; set; }
-        private static string key { get; set; }
-        private static string secret { get; set; }
-        private string userID { get; set; }
-        private string signature { get; set; }
+        private long nonce { get; set; }                                 // Date of purchase
+        private static string key { get; set; }                          // Public Key
+        private static string secret { get; set; }                       // Secret Key
+        private string userID { get; set; }                              // User ID
+        private string signature { get; set; }                           // Signature
         private double amount { get; set; }                              // Ether Amount
-        private Dictionary<string, string> values { get; set; }
-        private string ResponseString { get; set; }
+        private Dictionary<string, string> values { get; set; }          // Data to POST API
+        private string ResponseString { get; set; }                      // Response String
 
-
+        /**
+         * Defatul Constructor. USE for testing ONLY
+         */
         public BuyETH()
         {
             nonce = DateTime.UtcNow.Ticks;
@@ -39,7 +44,10 @@ namespace BuyWidget2.Models
             ResponseString = GetResponseString(values);
         }
 
-
+        /**
+         * Constructor
+         * @params etherAmount, the amount of ether to purchase
+         */
         public BuyETH(double etherAmount)
         {
             nonce = DateTime.UtcNow.Ticks;
@@ -58,11 +66,17 @@ namespace BuyWidget2.Models
             ResponseString = GetResponseString(values);
         }
 
+        /**
+         * Get ResponseString
+         */
         public string getResponseString()
         {
             return ResponseString;
         }
 
+ /****************************************************************************************************/
+ /*****************************    HELPER METHODS    *************************************************/
+ /****************************************************************************************************/
         /**
         * Get response from an URL
         * @returns a string containing a reponse
@@ -128,3 +142,4 @@ namespace BuyWidget2.Models
         }
     }
 }
+/************************ END OF BuyETH Class ****************************************************/

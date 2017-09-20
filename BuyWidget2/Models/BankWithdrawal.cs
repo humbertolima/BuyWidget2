@@ -50,15 +50,15 @@ namespace BuyWidget2.Models
             Address = "user or company addresd";
             Postal_Code = "User or company postal code";
             City = "User or Company City";
-            Country = "US"; // User or company country
-            Type = "international"; // sepa or international
+            Country = "US";                                // User or company country
+            Type = "international";                        // sepa or international
             BankName = "bank name";                        // Target Bank Name
-            BankAddress = "a bank address";                     // Target Bank Address
-            BankPostalCode = "bank's postal code";                // Target bank postal code
-            BankCity = "bank's city";                        // Target bank city
-            BankCountry = "bank's country";                     // Target Bank country. USE 2 char's Alpha-2-Codes
-            BankCurrency = "USD";                    // The currency in which the funds should be withdrawn. USD, EUR, etc.
-            Comment = "a coment";                         // OPTIONAL! Withdrawal comment
+            BankAddress = "a bank address";                // Target Bank Address
+            BankPostalCode = "bank's postal code";         // Target bank postal code
+            BankCity = "bank's city";                      // Target bank city
+            BankCountry = "bank's country";                // Target Bank country. USE 2 char's Alpha-2-Codes
+            BankCurrency = "USD";                          // The currency in which the funds should be withdrawn. USD, EUR, etc.
+            Comment = "a coment";                          // OPTIONAL! Withdrawal comment
             values = new Dictionary<string, string>
             {
                 {"key", key},
@@ -96,12 +96,16 @@ namespace BuyWidget2.Models
         */
         private string GetResponseString(Dictionary<string, string> parameters)
         {
+            // Create Http Client
             var httpClient = new HttpClient();
 
+            // Get response from API
             var response = httpClient.PostAsync("https://www.bitstamp.net/api/v2/withdrawal/open/", new FormUrlEncodedContent(parameters)).Result;
 
+            // Get content from API's reponse
             var contents = response.Content.ReadAsStringAsync().Result;
 
+            // Return content
             return contents;
         }
 

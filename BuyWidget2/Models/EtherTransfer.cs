@@ -31,7 +31,7 @@ namespace BuyWidget2.Models
         private double amount { get; set; }                         // Ether Amount. Min 0.00006000
         private string address { get; set; }                        // Address to make deposit 
         private int instant { get; set; }                           // Instant tranfer, 0 (false), 1 (true)
-        private Dictionary<string, string> values { get; set; }    // Data to be sent to POST Bitstamp API
+        private Dictionary<string, string> values { get; set; }     // Data to be sent to POST Bitstamp API
         private string responseString { get; set; }                 // Response from API
 
         /**
@@ -60,7 +60,6 @@ namespace BuyWidget2.Models
             };
             responseString = GetResponseString(values);
         }
-
 
         /**
          * Default Constructor.
@@ -137,12 +136,16 @@ namespace BuyWidget2.Models
         [AcceptVerbs("GET", "POST")]
         private string GetResponseString(Dictionary<string, string> parameters)
         {
+            // Create Http Client
             var httpClient = new HttpClient();
-
+            
+            // Getting response string from POST Bitstamp API
             var response = httpClient.PostAsync("https://www.bitstamp.net/api/eth_withdrawal/", new FormUrlEncodedContent(parameters)).Result;
 
+            // Getting content from response
             var contents = response.Content.ReadAsStringAsync().Result;
 
+            // Return content
             return contents;
         }
 

@@ -46,7 +46,7 @@ namespace BuyWidget2.Controllers.Api
             // Make purchase
             BuyETH purchase = new BuyETH(EthPurchaseAmount);
 
-            // While BTC's are not available in wallet, keep cheking until it's available in order to make a transfer 
+            // While Ether's are not available in wallet, keep cheking until it's available in order to make a transfer 
             while (Double.Parse(EthWalletBalance) < EthPurchaseAmount)
             {
                 EthWalletBalance = wallet.GetEthAvailable();

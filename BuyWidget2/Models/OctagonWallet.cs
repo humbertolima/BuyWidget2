@@ -6,15 +6,15 @@ using System.Web.Http;
 using System.Text;
 using System.Web;
 using System.Net.Http;
-//using System.Web.Script.Serialization;
 using System.Web.Script.Serialization;
 
 
 namespace BuyWidget2.Models
 {
+    // A class that represents a electronic wallet
     public class OctagonWallet
     {
-        private string btc_available { get; set;}
+        private string btc_available { get; set;}         
         private string btc_balance { get; set; }
         private string btc_reserved { get; set;} 
         private string btceur_fee { get; set; }
@@ -53,6 +53,9 @@ namespace BuyWidget2.Models
         private Dictionary<string, string> values { get; set; }
         private string ResponseString { get; set; }
 
+        /**
+         * Default Constructor
+         */
         public OctagonWallet()
         {
             nonce = DateTime.UtcNow.Ticks;
@@ -69,26 +72,41 @@ namespace BuyWidget2.Models
             ResponseString = GetResponseString(values);
         }
 
+        /**
+         * Get Response String
+         */
         public string GetResponse()
         {
             return ResponseString;
         }
 
+        /**
+         * Get Bitcoins Available in the account
+         */
         public string GetBtcAvailable()
         {
             return btc_balance;
         }
 
-
+        /**
+         * Get Ether Available in the account
+         */
         public string GetEthAvailable()
         {
             return eth_balance;
         }
 
+        /**
+         * Get USD Available in the account
+         */
         public string GetUsd()
         {
             return usd_balance;
         }
+
+/****************************************************************************************************/
+/*****************************    HELPER METHODS    *************************************************/
+/****************************************************************************************************/
 
         /**
          * Get response from an URL
@@ -96,11 +114,13 @@ namespace BuyWidget2.Models
          */
         private string GetResponseString(Dictionary<string, string> parameters)
         {
-            
+            // Create a HttpClient
             var httpClient = new HttpClient();
-
+            
+            // Getting Response from API
             var response = httpClient.PostAsync("https://www.bitstamp.net/api/v2/balance/", new FormUrlEncodedContent(parameters)).Result;
 
+            // Getting Content from the API
             var contents = response.Content.ReadAsStringAsync().Result;
 
             // Initializing a JavaScriptSerializer
@@ -109,10 +129,13 @@ namespace BuyWidget2.Models
             // Mapping data to Wallet2 object          
             Wallet2 wallet = (Wallet2)javaScriptSerializer.Deserialize(contents, typeof(Wallet2));
 
-            usd_balance = wallet.getUsd();
-            eth_balance = wallet.eth_balance;
-            btc_balance = wallet.btc_balance;
+            // Setting acount ballances
+            usd_balance = wallet.getUsd();      // USD Balance
+            eth_balance = wallet.eth_balance;   // Ether Balance
+            btc_balance = wallet.btc_balance;   // Bitcoin Balance
+            ltc_balance = wallet.ltc_balance;   // Litecoin Balance
 
+            // Return USD Value
             return wallet.getUsd();
         }
 
