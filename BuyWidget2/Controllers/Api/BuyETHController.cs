@@ -58,7 +58,6 @@ namespace BuyWidget2.Controllers.Api
 
             // View Result. ID if Successful, Error if not
             return purchase.getResponseString();
-
         }
     }
 }

@@ -97,6 +97,14 @@ namespace BuyWidget2.Models
         }
 
         /**
+         * Get Litecoin Available in the account
+         */
+        public string GetLtcAvailable()
+        {
+            return ltc_balance;
+        }
+
+        /**
          * Get USD Available in the account
          */
         public string GetUsd()

@@ -20,7 +20,7 @@ namespace BuyWidget2.Models
      * A class that represents a Signature that communicates with
      * Bistamp API
      */
-    public class EtherTransfer
+    public class LitecoinTransfer
     {
         // Declaring var's
         private long nonce { get; set; }                            // Date
@@ -28,7 +28,7 @@ namespace BuyWidget2.Models
         private static string secret { get; set; }                  // Secret API key
         private static string userID { get; set; }                  // User ID
         private string signature { get; set; }                      // Digital signature
-        private double amount { get; set; }                         // Ether Amount. Min 0.00006000
+        private double amount { get; set; }                         // Litecoin Amount. Min 0.00006000
         private string address { get; set; }                        // Address to make deposit 
         private int instant { get; set; }                           // Instant tranfer, 0 (false), 1 (true)
         private Dictionary<string, string> values { get; set; }     // Data to be sent to POST Bitstamp API
@@ -39,7 +39,7 @@ namespace BuyWidget2.Models
          * Use for real time testing ONLY
          * amount & address already predefined
          */
-        public EtherTransfer()
+        public LitecoinTransfer()
         {
             nonce = DateTime.UtcNow.Ticks;
             key = "rxrmaOmsg9bvEl6dxYBU3ZefNsz8Focd";
@@ -47,7 +47,7 @@ namespace BuyWidget2.Models
             userID = "isgr4867";
             signature = GetSignature(nonce, key, secret, userID);
             amount = 0.00006000;
-            address = "Ether Address";
+            address = "Litecoin Address";
             instant = 0;
             values = new Dictionary<string, string>
             {
@@ -64,17 +64,17 @@ namespace BuyWidget2.Models
         /**
          * Default Constructor.
          * Use for real time testing ONLY
-         * amount & address already predefined
+         * address already predefined
          */
-        public EtherTransfer(double etherAmount)
+        public LitecoinTransfer(double litecoinAmount)
         {
             nonce = DateTime.UtcNow.Ticks;
             key = "rxrmaOmsg9bvEl6dxYBU3ZefNsz8Focd";
             secret = "WpHHYqmoq5v9mqRb9pt9NehjEz4hkIKH";
             userID = "isgr4867";
             signature = GetSignature(nonce, key, secret, userID);
-            amount = etherAmount;
-            address = "An ether address";
+            amount = litecoinAmount;
+            address = "A litecoin address";
             instant = 0;
             values = new Dictionary<string, string>
             {
@@ -102,15 +102,15 @@ namespace BuyWidget2.Models
         * @params etherAmount, the amount of Bitount to purchase
         * @params etherWallet, the ether wallet address
         */
-        public EtherTransfer(double etherAmount, string etherWallet)
+        public LitecoinTransfer(double litecoinAmount, string litecoinWallet)
         {
             nonce = DateTime.UtcNow.Ticks;
             key = "rxrmaOmsg9bvEl6dxYBU3ZefNsz8Focd";
             secret = "WpHHYqmoq5v9mqRb9pt9NehjEz4hkIKH";
             userID = "isgr4867";
             signature = GetSignature(nonce, key, secret, userID);
-            amount = etherAmount;
-            address = etherWallet;
+            amount = litecoinAmount;
+            address = litecoinWallet;
             instant = 0;
             values = new Dictionary<string, string>
             {
@@ -138,9 +138,9 @@ namespace BuyWidget2.Models
         {
             // Create Http Client
             var httpClient = new HttpClient();
-            
+
             // Getting response string from POST Bitstamp API
-            var response = httpClient.PostAsync("https://www.bitstamp.net/api/eth_withdrawal/", new FormUrlEncodedContent(parameters)).Result;
+            var response = httpClient.PostAsync("https://www.bitstamp.net/api/ltc_withdrawal/", new FormUrlEncodedContent(parameters)).Result;
 
             // Getting content from response
             var contents = response.Content.ReadAsStringAsync().Result;

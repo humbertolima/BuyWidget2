@@ -1,26 +1,17 @@
-﻿/**
- * Author: Luis R. Gamez
- * Date: September 6th, 2017
- */
-
-using System;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
-using System.Net;
-using System.Net.Http;
 using System.Web;
-using System.Web.Http;
-using System.Windows.Forms;
+using System.Web.Script.Serialization;
+using Newtonsoft.Json;
 
 namespace BuyWidget2.Models
 {
-    /**
-     * A class that represents a Signature that communicates with
-     * Bistamp API
-     */
-    public class EtherTransfer
+    public class UserTransactions
     {
         // Declaring var's
         private long nonce { get; set; }                            // Date
@@ -28,125 +19,129 @@ namespace BuyWidget2.Models
         private static string secret { get; set; }                  // Secret API key
         private static string userID { get; set; }                  // User ID
         private string signature { get; set; }                      // Digital signature
-        private double amount { get; set; }                         // Ether Amount. Min 0.00006000
-        private string address { get; set; }                        // Address to make deposit 
-        private int instant { get; set; }                           // Instant tranfer, 0 (false), 1 (true)
+        private string offset { get; set; }                         // Skip many transactions, default: 0
+        private string limit { get; set; }                          // Limit result to that many transactions, default: 100, max: 1000
+        private string sort { get; set; }                           // Sorting by date and time: asc - ascending, desc - descending (default: desc)
         private Dictionary<string, string> values { get; set; }     // Data to be sent to POST Bitstamp API
         private string responseString { get; set; }                 // Response from API
+        private List<Transaction> list { get; set; }                // List of transactions
+        private string Date { get; set; }                           // Date of transaction
+        private string Amount { get; set; }                         // Amount of transaction
+        private string Deposit { get; set; }                        // Transaction of type "Deposit"
+        private string Withdrawal { get; set; }                     // Transaction of type "Withdrawal"
+        private string MarketTrade { get; set; }                    // Transaction of type "MarketTrade"
 
         /**
          * Default Constructor.
-         * Use for real time testing ONLY
-         * amount & address already predefined
          */
-        public EtherTransfer()
+        public UserTransactions()
         {
+            Deposit = "0";
+            Withdrawal = "1";
+            MarketTrade = "2";
+            list = new List<Transaction>();
             nonce = DateTime.UtcNow.Ticks;
             key = "rxrmaOmsg9bvEl6dxYBU3ZefNsz8Focd";
             secret = "WpHHYqmoq5v9mqRb9pt9NehjEz4hkIKH";
             userID = "isgr4867";
+            offset = "0";
+            limit = "100";
+            sort = "desc";
             signature = GetSignature(nonce, key, secret, userID);
-            amount = 0.00006000;
-            address = "Ether Address";
-            instant = 0;
             values = new Dictionary<string, string>
             {
                 {"key", key},
                 {"signature", signature},
                 {"nonce", nonce.ToString()},
-                {"amount", amount.ToString()},
-                {"address", address},
-                {"instant", instant.ToString() }
+                {"offset", offset},
+                {"limit", limit},
+                {"sort", sort}
             };
             responseString = GetResponseString(values);
         }
 
         /**
          * Default Constructor.
-         * Use for real time testing ONLY
-         * amount & address already predefined
+         * @params date, the date of transaction
+         * @params amount, the amount of the transaction
          */
-        public EtherTransfer(double etherAmount)
+        public UserTransactions(string date, string amount)
         {
+            Date = date;
+            Amount = amount;
+            list = new List<Transaction>();
             nonce = DateTime.UtcNow.Ticks;
             key = "rxrmaOmsg9bvEl6dxYBU3ZefNsz8Focd";
             secret = "WpHHYqmoq5v9mqRb9pt9NehjEz4hkIKH";
             userID = "isgr4867";
+            offset = "0";
+            limit = "100";
+            sort = "desc";
             signature = GetSignature(nonce, key, secret, userID);
-            amount = etherAmount;
-            address = "An ether address";
-            instant = 0;
             values = new Dictionary<string, string>
             {
                 {"key", key},
                 {"signature", signature},
                 {"nonce", nonce.ToString()},
-                {"amount", amount.ToString()},
-                {"address", address},
-                {"instant", instant.ToString() }
+                {"offset", offset},
+                {"limit", limit},
+                {"sort", sort}
             };
             responseString = GetResponseString(values);
         }
 
-        /**
-         * Get Response from API
-         */
         public string getResponseString()
         {
             return responseString;
         }
 
         /**
-        * Constructor for deployment only
-        * Amount and address given by the client
-        * @params etherAmount, the amount of Bitount to purchase
-        * @params etherWallet, the ether wallet address
+        * Get response from an URL
+        * @returns a string containing a reponse
         */
-        public EtherTransfer(double etherAmount, string etherWallet)
-        {
-            nonce = DateTime.UtcNow.Ticks;
-            key = "rxrmaOmsg9bvEl6dxYBU3ZefNsz8Focd";
-            secret = "WpHHYqmoq5v9mqRb9pt9NehjEz4hkIKH";
-            userID = "isgr4867";
-            signature = GetSignature(nonce, key, secret, userID);
-            amount = etherAmount;
-            address = etherWallet;
-            instant = 0;
-            values = new Dictionary<string, string>
-            {
-                {"key", key},
-                {"signature", signature},
-                {"nonce", nonce.ToString()},
-                {"amount", amount.ToString()},
-                {"address", address},
-                {"instant", instant.ToString() }
-            };
-            responseString = GetResponseString(values);
-        }
-
-        /****************************************************************************************************/
-        /*****************************    HELPER METHODS    *************************************************/
-        /****************************************************************************************************/
-
-        /**
-         * Communicate with Bitstamp API and get a response string
-         * @return a string containing the api's reply
-         */
-        [System.Web.Http.HttpPost]
-        [AcceptVerbs("GET", "POST")]
         private string GetResponseString(Dictionary<string, string> parameters)
         {
-            // Create Http Client
-            var httpClient = new HttpClient();
-            
-            // Getting response string from POST Bitstamp API
-            var response = httpClient.PostAsync("https://www.bitstamp.net/api/eth_withdrawal/", new FormUrlEncodedContent(parameters)).Result;
+            // String containing search's result
+            string result = "Deposit not found";
 
-            // Getting content from response
+            // Creates a http client
+            var httpClient = new HttpClient();
+
+            // Getting response of the api
+            var response = httpClient.PostAsync("https://www.bitstamp.net/api/user_transactions/", new FormUrlEncodedContent(parameters)).Result;
+
+            // Getting content of the API's response
             var contents = response.Content.ReadAsStringAsync().Result;
 
-            // Return content
-            return contents;
+            // Creating a JavaScriptSerializer object
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+            // Get transactions and add them to a list
+            list = serializer.Deserialize<List<Transaction>>(contents);
+
+            // Traversing the list for an especific transaction of type Deposit
+            for (int i = 0; i < list.Count; i++)
+            {
+                var a = list[i];
+
+                //"2017-09-19 21:41:15"
+                /*************** FOR TESTING ONLY **********************/
+                if (a.datetime.Contains("2017-08-25") && a.type.Equals(Deposit) && a.btc.Equals("0.00298440"))
+                {
+                    result = "Deposit of "+ a.btc +" BTC has been confirmed!! Thank you";
+                    break;
+                }
+
+                /*************** FOR PRODUCTION ONLY ************************/
+                /*if (a.datetime.Contains(Date) && a.type.Equals(Deposit) && a.btc.Equals(Amount))
+                {
+                    result = "Deposit has been confirmed!! Thank you";
+                    break;
+                }*/
+            }
+
+            // return result
+            return result;
         }
 
         /**
@@ -197,6 +192,6 @@ namespace BuyWidget2.Models
         {
             return BitConverter.ToString(hash).Replace("-", "").ToLower();
         }
+
     }
 }
-/*********************** END OF SIGNATURE CLASS *************************************/

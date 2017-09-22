@@ -161,8 +161,10 @@
     <Compile Include="Controllers\Api\BalanceController.cs" />
     <Compile Include="Controllers\Api\BuyBTCController.cs" />
     <Compile Include="Controllers\Api\BuyETHController.cs" />
+    <Compile Include="Controllers\Api\BuyLTCController.cs" />
     <Compile Include="Controllers\Api\OctagonWalletController.cs" />
     <Compile Include="Controllers\Api\TickerController.cs" />
+    <Compile Include="Controllers\Api\UserTransactionsController.cs" />
     <Compile Include="Controllers\Api\TransferController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TickerController.cs" />
@@ -173,10 +175,15 @@
     <Compile Include="Models\BankWithdrawal.cs" />
     <Compile Include="Models\BuyETH.cs" />
     <Compile Include="Models\BuyBTC.cs" />
+    <Compile Include="Models\BuyLTC.cs" />
     <Compile Include="Models\EtherTransfer.cs" />
+    <Compile Include="Models\LitecoinTransfer.cs" />
     <Compile Include="Models\OctagonWallet.cs" />
     <Compile Include="Models\Signature.cs" />
     <Compile Include="Models\Ticker.cs" />
+    <Compile Include="Models\Transaction.cs" />
+    <Compile Include="Models\TransactionsCollection.cs" />
+    <Compile Include="Models\UserTransactions.cs" />
     <Compile Include="Models\Wallet2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
