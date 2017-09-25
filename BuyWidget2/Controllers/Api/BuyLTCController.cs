@@ -31,7 +31,7 @@ namespace BuyWidget2.Controllers.Api
         [System.Web.Http.HttpPost]
         [AcceptVerbs("GET", "POST")]
         [Route("api/buyltc/{Dollars:double}/{LtcPurchaseAmount:double}")]
-        public string MakePurchase(double Dollars, double LtcPurchaseAmount /*,ClientBtcWalletAddress*/)
+        public string MakePurchase(double Dollars, double LtcPurchaseAmount /*,ClientLtcWalletAddress*/)
         {
             // Create a OctagonWallet Object
             OctagonWallet wallet = new OctagonWallet();
@@ -60,3 +60,4 @@ namespace BuyWidget2.Controllers.Api
         }
     }
 }
+/******************************* End of Controller ***********************************************/

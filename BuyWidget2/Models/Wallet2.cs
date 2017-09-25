@@ -45,3 +45,4 @@ namespace BuyWidget2.Models
         }
     }
 }
+/************************ End of Wallet2 Class **********************************/

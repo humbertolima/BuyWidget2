@@ -126,6 +126,15 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="Zen.Barcode.Core, Version=3.1.0.0, Culture=neutral, PublicKeyToken=b5ae55aa76d2d9de, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zen.Barcode.Rendering.Framework.3.1.10729.1\lib\Zen.Barcode.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing, Version=0.16.2.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.16.2\lib\net45\zxing.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing.presentation, Version=0.16.2.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.16.2\lib\net45\zxing.presentation.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
@@ -163,6 +172,7 @@
     <Compile Include="Controllers\Api\BuyETHController.cs" />
     <Compile Include="Controllers\Api\BuyLTCController.cs" />
     <Compile Include="Controllers\Api\OctagonWalletController.cs" />
+    <Compile Include="Controllers\Api\QrController.cs" />
     <Compile Include="Controllers\Api\TickerController.cs" />
     <Compile Include="Controllers\Api\UserTransactionsController.cs" />
     <Compile Include="Controllers\Api\TransferController.cs" />
@@ -179,6 +189,7 @@
     <Compile Include="Models\EtherTransfer.cs" />
     <Compile Include="Models\LitecoinTransfer.cs" />
     <Compile Include="Models\OctagonWallet.cs" />
+    <Compile Include="Models\QR.cs" />
     <Compile Include="Models\Signature.cs" />
     <Compile Include="Models\Ticker.cs" />
     <Compile Include="Models\Transaction.cs" />
