@@ -9,18 +9,24 @@ using System.Text;
 
 namespace BuyWidget2.Models
 {
+    /// <summary>
+    /// A class that represent a Purchase of Bitcoin
+    /// </summary>
     public class BuyBTC
     {
-        private long nonce { get; set;}
-        private static string key { get; set;}
-        private static string secret { get; set;}
-        private string userID { get; set;}
-        private string signature { get; set;}
-        private double amount { get; set;}                              // Bitcoin Amount
-        private Dictionary<string, string> values { get; set;}
-        private string ResponseString { get; set; }
+        // Declaring var's
+        private long nonce { get; set;}                        // Date
+        private static string key { get; set;}                 // Public Key
+        private static string secret { get; set;}              // Secret Key
+        private string userID { get; set;}                     // User ID
+        private string signature { get; set;}                  // Signature
+        private double amount { get; set;}                     // Bitcoin Amount
+        private Dictionary<string, string> values { get; set;} // Values to be sent to API
+        private string ResponseString { get; set; }            // API response String
 
-
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
         public BuyBTC()
         {
             nonce = DateTime.UtcNow.Ticks;
@@ -39,7 +45,10 @@ namespace BuyWidget2.Models
             ResponseString = GetResponseString(values);
         }
 
-
+        /// <summary>
+        /// Production Constructor
+        /// </summary>
+        /// <param name="BitcoinAmount"> Bitcoin Amount to be buy</param>
         public BuyBTC(double BitcoinAmount)
         {
              nonce = DateTime.UtcNow.Ticks;
@@ -63,10 +72,11 @@ namespace BuyWidget2.Models
             return ResponseString;
         }
 
-        /**
-        * Get response from an URL
-        * @returns a string containing a reponse
-        */
+        /// <summary>
+        /// Get response from an URL
+        /// </summary>
+        /// <param name="parameters">Data to be sent to API</param>
+        /// <returns>API's Response</returns>
         private string GetResponseString(Dictionary<string, string> parameters)
         {
             var httpClient = new HttpClient();
@@ -78,14 +88,14 @@ namespace BuyWidget2.Models
             return contents;
         }
 
-        /**
-         * Create a signature 
-         * @params nonce
-         * @params key
-         * @params secret
-         * @params clientId
-         * @returns a signature of string class
-         */
+        /// <summary>
+        /// Create a signature 
+        /// </summary>
+        /// <param name="nonce">Unique value aka Date</param>
+        /// <param name="key">Public Key</param>
+        /// <param name="secret">Secret Key</param>
+        /// <param name="clientId">Client ID</param>
+        /// <returns>A Signature</returns>
         private string GetSignature(long nonce, string key, string secret, string clientId)
         {
             string msg = string.Format("{0}{1}{2}", nonce,
@@ -95,36 +105,37 @@ namespace BuyWidget2.Models
             return ByteArrayToString(SignHMACSHA256(secret, StrinToByteArray(msg))).ToUpper();
         }
 
-        /**
-         * Creates a Hash on SHA-256 format
-         * @params key, a key
-         * @params data, data
-         * @returns a byte array
-         */
+        /// <summary>
+        ///  Creates a Hash on SHA-256 format
+        /// </summary>
+        /// <param name="key"> A Key</param>
+        /// <param name="data"> Data</param>
+        /// <returns>An array of bytes in HMAC-SHA256</returns>
         public static byte[] SignHMACSHA256(String key, byte[] data)
         {
             HMACSHA256 hashMaker = new HMACSHA256(Encoding.ASCII.GetBytes(key));
             return hashMaker.ComputeHash(data);
         }
 
-        /**
-         * Creates a byte array fron a String
-         * @params str, a string
-         * @returns a byte array
-         */
+        /// <summary>
+        /// Creates a byte array fron a String
+        /// </summary>
+        /// <param name="str">a string of characters</param>
+        /// <returns>An array of bytes</returns>
         public static byte[] StrinToByteArray(string str)
         {
             return System.Text.Encoding.ASCII.GetBytes(str);
         }
 
-        /**
-         * Creates a string from a byte array
-         * @params hash, a hash
-         * @return a string
-         */
+        /// <summary>
+        /// Creates a string from a byte array
+        /// </summary>
+        /// <param name="hash">a hash of bytes</param>
+        /// <returns>a string</returns>
         public static string ByteArrayToString(byte[] hash)
         {
             return BitConverter.ToString(hash).Replace("-", "").ToLower();
         }
     }
 }
+/********************** END OF CLASS ****************************************/

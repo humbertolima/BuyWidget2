@@ -16,7 +16,7 @@ namespace BuyWidget2.Controllers.Api
     public class QrController : ApiController
     {
         //GET /api/qr/
-          public Image GetBitmap()
+          public Bitmap GetBitmap()
           {
             //  QR qr = new QR("200", "200", "http://www.google.com/");
               QR qr = new QR();
@@ -27,11 +27,7 @@ namespace BuyWidget2.Controllers.Api
               Stream originalBinaryDataStream = new MemoryStream(data);
               Bitmap image = new Bitmap(originalBinaryDataStream);
 
-
-
               return image;
-
-
           }
     }
 }

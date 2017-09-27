@@ -11,6 +11,9 @@ using Newtonsoft.Json;
 
 namespace BuyWidget2.Models
 {
+    /// <summary>
+    /// A class that represents the user's transactions (Sell, Deposit, Withdraw)
+    /// </summary>
     public class UserTransactions
     {
         // Declaring var's
@@ -31,9 +34,9 @@ namespace BuyWidget2.Models
         private string Withdrawal { get; set; }                     // Transaction of type "Withdrawal"
         private string MarketTrade { get; set; }                    // Transaction of type "MarketTrade"
 
-        /**
-         * Default Constructor.
-         */
+        /// <summary>
+        /// Default Constructor. Amount and Date are set
+        /// </summary>
         public UserTransactions()
         {
             Deposit = "0";
@@ -60,11 +63,43 @@ namespace BuyWidget2.Models
             responseString = GetResponseString(values);
         }
 
-        /**
-         * Default Constructor.
-         * @params date, the date of transaction
-         * @params amount, the amount of the transaction
-         */
+        /// <summary>
+        /// Production Constructor
+        /// </summary>
+        /// <param name="amount">Amount of the transaction</param>
+        public UserTransactions(string amount)
+        {
+            Deposit = "0";
+            Withdrawal = "1";
+            MarketTrade = "2";
+            Date = DateTime.UtcNow.ToString("yyyy-MM-dd"); 
+            Amount = amount;
+            list = new List<Transaction>();
+            nonce = DateTime.UtcNow.Ticks;
+            key = "rxrmaOmsg9bvEl6dxYBU3ZefNsz8Focd";
+            secret = "WpHHYqmoq5v9mqRb9pt9NehjEz4hkIKH";
+            userID = "isgr4867";
+            offset = "0";
+            limit = "100";
+            sort = "desc";
+            signature = GetSignature(nonce, key, secret, userID);
+            values = new Dictionary<string, string>
+            {
+                {"key", key},
+                {"signature", signature},
+                {"nonce", nonce.ToString()},
+                {"offset", offset},
+                {"limit", limit},
+                {"sort", sort}
+            };
+            responseString = GetResponseString(values);
+        }
+
+        /// <summary>
+        /// Production Constructor
+        /// </summary>
+        /// <param name="date"> Same date on which the transaction was made</param>
+        /// <param name="amount"> Amount of the transaction</param>
         public UserTransactions(string date, string amount)
         {
             Date = date;
@@ -90,15 +125,20 @@ namespace BuyWidget2.Models
             responseString = GetResponseString(values);
         }
 
+        /// <summary>
+        /// Get Response String
+        /// </summary>
+        /// <returns></returns>
         public string getResponseString()
         {
             return responseString;
         }
 
-        /**
-        * Get response from an URL
-        * @returns a string containing a reponse
-        */
+        /// <summary>
+        /// Get response from an URL
+        /// </summary>
+        /// <param name="parameters">a string containing a reponse</param>
+        /// <returns></returns>
         private string GetResponseString(Dictionary<string, string> parameters)
         {
             // String containing search's result
@@ -139,19 +179,18 @@ namespace BuyWidget2.Models
                     break;
                 }*/
             }
-
-            // return result
             return result;
+            //return contents;
         }
 
-        /**
-         * Create a signature 
-         * @params nonce
-         * @params key
-         * @params secret
-         * @params clientId
-         * @returns a signature of string class
-         */
+        /// <summary>
+        /// Create a signature in HMAC-256
+        /// </summary>
+        /// <param name="nonce">Date</param>
+        /// <param name="key">Public Key</param>
+        /// <param name="secret">Secret Key</param>
+        /// <param name="clientId">Client ID</param>
+        /// <returns>A string coded in HMAC-256</returns>
         private string GetSignature(long nonce, string key, string secret, string clientId)
         {
             string msg = string.Format("{0}{1}{2}", nonce,
@@ -161,37 +200,36 @@ namespace BuyWidget2.Models
             return ByteArrayToString(SignHMACSHA256(secret, StrinToByteArray(msg))).ToUpper();
         }
 
-        /**
-         * Creates a Hash on SHA-256 format
-         * @params key, a key
-         * @params data, data
-         * @returns a byte array
-         */
+        /// <summary>
+        /// Creates a Hash on SHA-256 format
+        /// </summary>
+        /// <param name="key">Secret Key</param>
+        /// <param name="data">Data</param>
+        /// <returns></returns>
         public static byte[] SignHMACSHA256(String key, byte[] data)
         {
             HMACSHA256 hashMaker = new HMACSHA256(Encoding.ASCII.GetBytes(key));
             return hashMaker.ComputeHash(data);
         }
 
-        /**
-         * Creates a byte array fron a String
-         * @params str, a string
-         * @returns a byte array
-         */
+        /// <summary>
+        /// Creates a byte array fron a String
+        /// </summary>
+        /// <param name="str">A String</param>
+        /// <returns> An array of bytes</returns>
         public static byte[] StrinToByteArray(string str)
         {
             return System.Text.Encoding.ASCII.GetBytes(str);
         }
 
-        /**
-         * Creates a string from a byte array
-         * @params hash, a hash
-         * @return a string
-         */
+        /// <summary>
+        /// Creates a string from a byte array
+        /// </summary>
+        /// <param name="hash">A Hash of bytes</param>
+        /// <returns>A string</returns>
         public static string ByteArrayToString(byte[] hash)
         {
             return BitConverter.ToString(hash).Replace("-", "").ToLower();
         }
-
     }
 }

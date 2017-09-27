@@ -11,7 +11,6 @@ namespace BuyWidget2.Controllers.Api
 
     public class BuyETHController : ApiController
     {
-
         //POST /api/buyeth/
         [System.Web.Http.HttpPost]
         [AcceptVerbs("GET", "POST")]
@@ -26,8 +25,8 @@ namespace BuyWidget2.Controllers.Api
 
         //POST /api/buyeth/500/1.2
         /**
-         * @params Dollars, BTC value in dollars quoted (bitstamp price)
-         * @params BtcPurchaseAmount, Bitcoins purchase amount
+         * @params Dollars, Ether value in dollars quoted (bitstamp price)
+         * @params BtcPurchaseAmount, Ether purchase amount
          */
         [System.Web.Http.HttpPost]
         [AcceptVerbs("GET", "POST")]

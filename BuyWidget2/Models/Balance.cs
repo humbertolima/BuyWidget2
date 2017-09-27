@@ -8,6 +8,9 @@ using System.Web;
 
 namespace BuyWidget2.Models
 {
+    /**
+     * A class that represents the balance of a electronic wallet at Bitstamp
+     */
     public class Balance
     {
         private long nonce { get; set;}

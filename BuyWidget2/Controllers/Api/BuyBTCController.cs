@@ -40,7 +40,7 @@ namespace BuyWidget2.Controllers.Api
             // Get Bitcoin Balance in the wallet
             var BtcWalletBalance = wallet.GetBtcAvailable();
 
-            // Withdraw money from the bank equal to the purchase
+            // Withdraw money from the bank equal to the purchase (restoking)
             BankWithdrawal Withdrawal = new BankWithdrawal(Dollars.ToString());
 
             // Make purchase

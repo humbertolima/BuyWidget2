@@ -16,10 +16,10 @@ using System.Windows.Forms;
 
 namespace BuyWidget2.Models
 {
-    /**
-     * A class that represents a Signature that communicates with
-     * Bistamp API
-     */
+    /// <summary>
+    /// A class that represents a withdrawal aka transfer of Bitcoins
+    /// from Octagon to a client's Bitcoin Wallet
+    /// </summary>
     public class Signature
     {
         // Declaring var's
@@ -32,13 +32,13 @@ namespace BuyWidget2.Models
         private string address { get; set;}                        // Address to make deposit 
         private int instant { get; set;}                           // Instant tranfer, 0 (false), 1 (true)
         private Dictionary<string, string> values { get; set; }    // Data to be sent to POST Bitstamp API
-        private string responseString { get; set;}                 // Response from API
+        private string responseString { get; set; }                 // Response from API
 
-        /**
-         * Default Constructor.
-         * Use for real time testing ONLY
-         * amount & address already predefined
-         */
+        /// <summary>
+        /// Default Constructor.
+        /// Use for real time testing ONLY
+        /// amount & address already predefined
+        /// </summary>
         public Signature()
         {
             nonce = DateTime.UtcNow.Ticks;                             
@@ -61,12 +61,12 @@ namespace BuyWidget2.Models
             responseString = GetResponseString(values);
         }
 
-
-        /**
-         * Default Constructor.
-         * Use for real time testing ONLY
-         * amount & address already predefined
-         */
+        /// <summary>
+        /// Default Constructor.
+        /// Use for real time testing ONLY
+        /// address already predefined
+        /// </summary>
+        /// <param name="BitcoinAmount">Bitcoin Amount</param>
         public Signature(double BitcoinAmount)
         {
             nonce = DateTime.UtcNow.Ticks;
@@ -97,12 +97,12 @@ namespace BuyWidget2.Models
             return responseString;
         }
 
-        /**
-        * Constructor for deployment only
-        * Amount and address given by the client
-        * @params BitcounAmount, the amount of Bitount to purchase
-        * @params BitcoinWallet, the Bitcoun wallet address
-        */
+        /// <summary>
+        /// Constructor for deployment only
+        /// Amount and address given by the client
+        /// </summary>
+        /// <param name="BitcoinAmount">the amount of Bitount to purchase</param>
+        /// <param name="BitcoinWallet">the Bitcoun wallet address</param>
         public Signature(double BitcoinAmount, string BitcoinWallet)
         {
             nonce = DateTime.UtcNow.Ticks;
@@ -129,10 +129,11 @@ namespace BuyWidget2.Models
         /*****************************    HELPER METHODS    *************************************************/
         /****************************************************************************************************/
 
-        /**
-         * Communicate with Bitstamp API and get a response string
-         * @return a string containing the api's reply
-         */
+        /// <summary>
+        /// Communicate with Bitstamp API and get a response string
+        /// </summary>
+        /// <param name="parameters">Data</param>
+        /// <returns>API's response</returns>
         [System.Web.Http.HttpPost]
         [AcceptVerbs("GET", "POST")]
         private string GetResponseString(Dictionary<string, string> parameters)
@@ -146,14 +147,14 @@ namespace BuyWidget2.Models
             return contents;
         }
 
-        /**
-         * Create a signature 
-         * @params nonce
-         * @params key
-         * @params secret
-         * @params clientId
-         * @returns a signature of string class
-         */
+        /// <summary>
+        /// Create a signature
+        /// </summary>
+        /// <param name="nonce">Date</param>
+        /// <param name="key">Public Key</param>
+        /// <param name="secret">Secret Key</param>
+        /// <param name="clientId">Client ID</param>
+        /// <returns></returns>
         private string GetSignature(long nonce, string key, string secret, string clientId)
         {
             string msg = string.Format("{0}{1}{2}", nonce,
@@ -163,33 +164,33 @@ namespace BuyWidget2.Models
             return ByteArrayToString(SignHMACSHA256(secret, StrinToByteArray(msg))).ToUpper();
         }
 
-        /**
-         * Creates a Hash on SHA-256 format
-         * @params key, a key
-         * @params data, data
-         * @returns a byte array
-         */
+        /// <summary>
+        /// Creates a Hash on SHA-256 format
+        /// </summary>
+        /// <param name="key">A key</param>
+        /// <param name="data">Data</param>
+        /// <returns>An array of bytes</returns>
         public static byte[] SignHMACSHA256(String key, byte[] data)
         {
             HMACSHA256 hashMaker = new HMACSHA256(Encoding.ASCII.GetBytes(key));
             return hashMaker.ComputeHash(data);
         }
 
-        /**
-         * Creates a byte array fron a String
-         * @params str, a string
-         * @returns a byte array
-         */
+        /// <summary>
+        /// Creates a byte array fron a String
+        /// </summary>
+        /// <param name="str">A string</param>
+        /// <returns>An Array of Bytes</returns>
         public static byte[] StrinToByteArray(string str)
         {
             return System.Text.Encoding.ASCII.GetBytes(str);
         }
 
-        /**
-         * Creates a string from a byte array
-         * @params hash, a hash
-         * @return a string
-         */
+        /// <summary>
+        /// Creates a string from a byte array
+        /// </summary>
+        /// <param name="hash">A hash</param>
+        /// <returns>A String</returns>
         public static string ByteArrayToString(byte[] hash)
         {
             return BitConverter.ToString(hash).Replace("-", "").ToLower();
