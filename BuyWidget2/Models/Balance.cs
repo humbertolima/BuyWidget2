@@ -1,4 +1,9 @@
-﻿using System;
+﻿/**
+ * Author: Luis R. Gamez
+ * Date: September 6th, 2017
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
