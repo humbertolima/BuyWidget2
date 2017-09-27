@@ -6,7 +6,7 @@ using System.Web;
 namespace BuyWidget2.Models
 {
     /// <summary>
-    /// A class that represents a Bitcoin Ticket
+    /// A class that represents a Cryptocurreny Ticket
     /// </summary>
     public class Ticker
     {
@@ -19,7 +19,7 @@ namespace BuyWidget2.Models
         public string ask { get; set; }           // Lowest sell order
         public string timestamp { get; set; }     // Unix timestamp date and time
         public string open { get; set; }          // First price of the day
-        private static double fee = 0.00;         // Fee of transaction
+        private static double fee = 1.50;         // Fee of transaction
 
         /// <summary>
         /// Get Octagon Price of Bitcoin
@@ -35,7 +35,7 @@ namespace BuyWidget2.Models
         /// <returns>Octagon Cryptocurrency Price</returns>
         public string OctagonCryptocurrencyPrice()
         {
-            return (Double.Parse(last) + fee).ToString();
+            return (Double.Parse(last) * fee).ToString();
         }
 
         /// <summary>

@@ -29,7 +29,7 @@ namespace BuyWidget2.Controllers.Api
         {
             // API URL
             string url = @"https://www.bitstamp.net/api/ticker/";
-
+            
             // Json Data
             var json = new WebClient().DownloadString(url);
 
@@ -65,7 +65,7 @@ namespace BuyWidget2.Controllers.Api
                 url = @"https://www.bitstamp.net/api/ticker/";
             else if (type == 2)
                 url = @"https://www.bitstamp.net/api/v2/ticker/ethusd/";
-            else
+            else if (type == 3)
                 url = @"https://www.bitstamp.net/api/v2/ticker/ltcusd/";
 
             // Json Data
@@ -77,8 +77,11 @@ namespace BuyWidget2.Controllers.Api
             // Mapping date to ticker object
             Ticker ticker = (Ticker)javaScriptSerializer.Deserialize(json, typeof(Ticker));
 
-            // Getting BTC prices
-            data = ticker.BitstampCryptocurrencyPrice();
+            // Getting Bitstamp Cryptocurrency price
+            //data = ticker.BitstampCryptocurrencyPrice();
+            
+            // Getting Octagon Cryptocurrency price
+            data = ticker.OctagonCryptocurrencyPrice();
 
             // Return Quote
             return data.ToString();
