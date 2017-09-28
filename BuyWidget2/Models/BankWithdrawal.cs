@@ -8,6 +8,9 @@ using System.Web;
 
 namespace BuyWidget2.Models
 {
+    /// <summary>
+    /// A class that represents a Bank Withdrawal
+    /// </summary>
     public class BankWithdrawal
     {
         private long nonce { get; set; }                             // Nonce
@@ -35,6 +38,10 @@ namespace BuyWidget2.Models
         private string BankCurrency { get; set; }                    // The currency in which the funds should be withdrawn. USD, EUR, etc.
         private string Comment { get; set; }                         // OPTIONAL! Withdrawal comment
 
+        /// <summary>
+        /// Default Constructor of BankWithdrawall
+        /// </summary>
+        /// <param name="amount">Dollars to withdraw from bank acoount</param>
         public BankWithdrawal(string amount)
         {
             nonce = DateTime.UtcNow.Ticks;
