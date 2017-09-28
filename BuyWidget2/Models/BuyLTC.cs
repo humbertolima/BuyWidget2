@@ -9,18 +9,23 @@ using System.Text;
 
 namespace BuyWidget2.Models
 {
+    /// <summary>
+    /// A class that represents a Purchase of Litecoins
+    /// </summary>
     public class BuyLTC
     {
-        private long nonce { get; set; }
-        private static string key { get; set; }
-        private static string secret { get; set; }
-        private string userID { get; set; }
-        private string signature { get; set; }
+        private long nonce { get; set; }                                 // Date
+        private static string key { get; set; }                          // Public Key
+        private static string secret { get; set; }                       // Secret Key
+        private string userID { get; set; }                              // User ID
+        private string signature { get; set; }                           // Electronic Signature
         private double amount { get; set; }                              // Litecoin Amount
-        private Dictionary<string, string> values { get; set; }
-        private string ResponseString { get; set; }
+        private Dictionary<string, string> values { get; set; }          // Values to be sent to Bitstamp
+        private string ResponseString { get; set; }                      // Response String 
 
-
+        /// <summary>
+        /// Default Constructor. Amount predefined
+        /// </summary>
         public BuyLTC()
         {
             nonce = DateTime.UtcNow.Ticks;
@@ -39,7 +44,10 @@ namespace BuyWidget2.Models
             ResponseString = GetResponseString(values);
         }
 
-
+        /// <summary>
+        /// Deployment Construtor
+        /// </summary>
+        /// <param name="LitecoinAmount"> The amount of Litecoin to be purchase</param>
         public BuyLTC(double LitecoinAmount)
         {
             nonce = DateTime.UtcNow.Ticks;

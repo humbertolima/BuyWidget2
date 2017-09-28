@@ -15,6 +15,10 @@ namespace BuyWidget2.Controllers.Api
     public class BalanceController : ApiController
     {
         // GET /api/balance
+        /// <summary>
+        /// Get Ballance of all currencies in the account
+        /// </summary>
+        /// <returns>Balances on the account</returns>
         public string GetBalance()
         {
             // Create Balance object to check wallet's balance
