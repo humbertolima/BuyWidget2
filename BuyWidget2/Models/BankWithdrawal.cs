@@ -92,15 +92,20 @@ namespace BuyWidget2.Models
             ResponseString = GetResponseString(values);
         }
 
+        /// <summary>
+        /// Get API's response from Bitstamp
+        /// </summary>
+        /// <returns></returns>
         public string getResponseString()
         {
             return ResponseString;
         }
 
-        /**
-        * Get response from an URL
-        * @returns a string containing a reponse
-        */
+        /// <summary>
+        /// Get response string with given parameters
+        /// </summary>
+        /// <param name="parameters">data to be sent</param>
+        /// <returns></returns>
         private string GetResponseString(Dictionary<string, string> parameters)
         {
             // Create Http Client
