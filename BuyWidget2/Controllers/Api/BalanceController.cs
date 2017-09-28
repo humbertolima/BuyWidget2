@@ -25,3 +25,4 @@ namespace BuyWidget2.Controllers.Api
         }
     }
 }
+/************************** END OF CLASS ************************************/
