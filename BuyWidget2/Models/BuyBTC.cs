@@ -72,6 +72,10 @@ namespace BuyWidget2.Models
             ResponseString = GetResponseString(values);
         }
 
+        /// <summary>
+        /// Get response string
+        /// </summary>
+        /// <returns></returns>
         public string getResponseString()
         {
             return ResponseString;
