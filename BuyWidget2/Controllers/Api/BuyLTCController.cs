@@ -15,7 +15,6 @@ namespace BuyWidget2.Controllers.Api
 {
     public class BuyLTCController : ApiController
     {
-
         //POST /api/buyltc/
         [System.Web.Http.HttpPost]
         [AcceptVerbs("GET", "POST")]
