@@ -1,4 +1,9 @@
-﻿using System;
+﻿/**
+ * Author: Luis R. Gamez
+ * Date: September 6th, 2017
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -121,14 +126,14 @@ namespace BuyWidget2.Models
             return contents;
         }
 
-        /**
-         * Create a signature 
-         * @params nonce
-         * @params key
-         * @params secret
-         * @params clientId
-         * @returns a signature of string class
-         */
+        /// <summary>
+        /// Get a signature coded in HMAC-SHA256
+        /// </summary>
+        /// <param name="nonce">A unitque number a.k.a Date</param>
+        /// <param name="key">Public Key</param>
+        /// <param name="secret">Secret Key</param>
+        /// <param name="clientId">Client ID</param>
+        /// <returns>A HMAC-SHA256 Signature</returns>
         private string GetSignature(long nonce, string key, string secret, string clientId)
         {
             string msg = string.Format("{0}{1}{2}", nonce,
@@ -138,37 +143,37 @@ namespace BuyWidget2.Models
             return ByteArrayToString(SignHMACSHA256(secret, StrinToByteArray(msg))).ToUpper();
         }
 
-        /**
-         * Creates a Hash on SHA-256 format
-         * @params key, a key
-         * @params data, data
-         * @returns a byte array
-         */
+        /// <summary>
+        /// Creates an array of bytes in HMAC-SHA256
+        /// </summary>
+        /// <param name="key">A key (secret key)</param>
+        /// <param name="data">Data to embbed</param>
+        /// <returns></returns>
         public static byte[] SignHMACSHA256(String key, byte[] data)
         {
             HMACSHA256 hashMaker = new HMACSHA256(Encoding.ASCII.GetBytes(key));
             return hashMaker.ComputeHash(data);
         }
 
-        /**
-         * Creates a byte array fron a String
-         * @params str, a string
-         * @returns a byte array
-         */
+        /// <summary>
+        /// Turns a given string to an array of bytes
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns>An array of bytes</returns>
         public static byte[] StrinToByteArray(string str)
         {
             return System.Text.Encoding.ASCII.GetBytes(str);
         }
 
-        /**
-         * Creates a string from a byte array
-         * @params hash, a hash
-         * @return a string
-         */
+        /// <summary>
+        /// Turns an Array of Bytes into a string
+        /// </summary>
+        /// <param name="hash">A string of bytes</param>
+        /// <returns>A string in lower case with no dashes "-"</returns>
         public static string ByteArrayToString(byte[] hash)
         {
             return BitConverter.ToString(hash).Replace("-", "").ToLower();
         }
-
     }
 }
+/****************************** END OF CLASS ***************************************/
