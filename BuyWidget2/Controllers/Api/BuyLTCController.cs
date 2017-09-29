@@ -1,4 +1,9 @@
-﻿using BuyWidget2.Models;
+﻿/**
+ * Author: Luis R. Gamez
+ * Date: September 6th, 2017
+ */
+
+using BuyWidget2.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
